@@ -1,5 +1,4 @@
-﻿using System;
-namespace pcars
+﻿namespace pcars
 {
     public interface IDisplay
     {

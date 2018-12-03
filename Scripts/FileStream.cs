@@ -14,7 +14,7 @@ namespace pcars
             this.fileName = fileName;
         }
 
-        public void Write(List<TrackPosData> laps)
+        public void Save(List<TrackPosData> laps)
         {
             if (laps.Count > 0)
             {
@@ -25,7 +25,7 @@ namespace pcars
             }
         }
 
-        public List<TrackPosData> Read()
+        public List<TrackPosData> Load()
         {
             Stream openFileStream = File.OpenRead(fileName);
             BinaryFormatter deserializer = new BinaryFormatter();
