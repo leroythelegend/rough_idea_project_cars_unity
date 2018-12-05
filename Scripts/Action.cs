@@ -8,11 +8,11 @@ namespace pcars
         IGameState menu;
         IGameState currentState;
 
-        public Action()
+        public Action(ITelemetryProcessor playingProcessor, ITelemetryProcessor menuProcessor)
         {
             frontEnd = new GameFrontEndState();
-            playing = new GamePlayingState();
-            menu = new GameMenuState();
+            playing = new GamePlayingState(playingProcessor);
+            menu = new GameMenuState(menuProcessor);
 
             currentState = frontEnd;
         }

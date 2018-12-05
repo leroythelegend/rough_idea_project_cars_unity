@@ -3,15 +3,18 @@ namespace pcars
 {
     public class GameMenuState : IGameState 
     {
-        public GameMenuState()
+        readonly ITelemetryProcessor processor;
+
+        public GameMenuState(ITelemetryProcessor processor)
         {
+            this.processor = processor;
         }
 
         public void Start(IAction action, PacketDecoder packet)
         {
             ChangeState(action, packet);
 
-            // do something with recorded data
+            processor.Process();
         }
 
         public void ChangeState(IAction action, PacketDecoder packet)

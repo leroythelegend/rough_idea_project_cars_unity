@@ -3,14 +3,19 @@ namespace pcars
 {
     public class GamePlayingState : IGameState
     {
-        public GamePlayingState()
+        ITelemetryProcessor processor;
+
+        public GamePlayingState(ITelemetryProcessor processor)
         {
+            this.processor = processor;
         }
 
         public void Start(IAction action, PacketDecoder packet)
         {
             ChangeState(action, packet);
-            // record or live feed while playing
+
+            processor.AddPacket(packet);
+            processor.Process();
         }
 
         public void ChangeState(IAction action, PacketDecoder packet)
