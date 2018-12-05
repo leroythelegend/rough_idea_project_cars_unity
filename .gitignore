@@ -2,3 +2,5 @@
 Scenes.meta
 Scripts.meta
 Scenes/
+Scripts/*.meta
+
