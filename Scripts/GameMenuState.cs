@@ -1,50 +1,22 @@
 ﻿using System;
 namespace pcars
 {
-    public class GameMenuState : ICaptureState
+    public class GameMenuState : IGameState 
     {
-        IRecord record;
-        IDisplay display;
-
-        bool displayed;
-
-        public GameMenuState(IRecord record, IDisplay display)
+        public GameMenuState()
         {
-            displayed = false;
-            this.record = record;
-            this.display = display;
         }
 
-        public void Capture(Capture capture, PacketDecoder packet)
+        public void Start(IAction action, PacketDecoder packet)
         {
-            // Console.WriteLine("In Game menu " + packet.GetType());
+            ChangeState(action, packet);
 
-            if (packet.GetType().Name == "GameStateDataDecoder")
-            {
-                var gameState = (GameStateDataDecoder)packet;
-
-                if (gameState.gameState.GameState() == GameStates.GAME_INGAME_PLAYING)
-                {
-                    displayed = false;
-                    Next(capture, new GamePlayingState(record, display));
-                }
-                else if (gameState.gameState.GameState() == GameStates.GAME_FRONT_END)
-                {
-                    displayed = false;
-                    Next(capture, new GameFrontEndState(record, display));
-                }
-            }
-            else if (!displayed)
-            {
-                displayed = true;
-                display.DisplayTelemetry(record);
-            }
+            // do something with recorded data
         }
 
-        public void Next(Capture capture, ICaptureState captureState)
+        public void ChangeState(IAction action, PacketDecoder packet)
         {
-            capture.NextState(captureState);
+            action.ChangeState(packet);
         }
     }
 }
-

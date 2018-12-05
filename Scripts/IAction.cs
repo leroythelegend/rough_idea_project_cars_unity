@@ -4,12 +4,9 @@ namespace pcars
 {
     public interface IAction
     {
-        void Record();
-        void Display();
-
-        void Process(PacketDecoder packet);
+        void Start(PacketDecoder packet);
 
 
-        void ChangeState(IGameState state);
+        void ChangeState(PacketDecoder packet);
     }
 }

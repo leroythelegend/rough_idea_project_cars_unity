@@ -1,40 +1,21 @@
 ﻿using System;
 namespace pcars
 {
-    public class GameFrontEndState : ICaptureState
+    public class GameFrontEndState : IGameState
     {
-        IRecord record;
-        IDisplay display;
-
-        public GameFrontEndState(IRecord record, IDisplay display)
+        public GameFrontEndState()
         {
-            this.record = record;
-            this.display = display;
         }
 
-        public void Capture(Capture capture, PacketDecoder packet)
+        public void Start(IAction action, PacketDecoder packet)
         {
-            // Console.WriteLine("In Game Front End " + packet.GetType());
-
-            if (packet.GetType().Name == "GameStateDataDecoder")
-            {
-                var gameState = (GameStateDataDecoder)packet;
-
-                if (gameState.gameState.GameState() == GameStates.GAME_INGAME_PLAYING)
-                {
-                    Next(capture, new GamePlayingState(record, display));
-                }
-                else if (gameState.gameState.GameState() == GameStates.GAME_INGAME_INMENU_TIME_TICKING)
-                {
-                    Next(capture, new GameMenuState(record, display));
-                }
-            }
+            // Currently do nothing when in the frontend
+            ChangeState(action, packet);
         }
 
-        public void Next(Capture capture, ICaptureState captureState)
+        public void ChangeState(IAction action, PacketDecoder packet)
         {
-            capture.NextState(captureState);
+            action.ChangeState(packet);
         }
     }
 }
-
