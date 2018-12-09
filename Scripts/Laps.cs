@@ -26,5 +26,10 @@ namespace pcars
         {
             return laps;
         }
+
+        public int Size()
+        {
+            return laps.Count;
+        }
     }
 }

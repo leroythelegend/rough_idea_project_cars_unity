@@ -22,6 +22,11 @@ namespace pcars
             packets.Clear();    
         }
 
+        public int Size()
+        {
+            return packets.Count;
+        }
+
         public List<PacketDecoder> GetPackets()
         {
             return packets;
