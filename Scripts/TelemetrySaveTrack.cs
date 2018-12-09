@@ -43,7 +43,11 @@ namespace pcars
 
             for (int i = 0; i < laps.Size(); ++i)
             {
-                for (int j = 0; j < laps.GetLaps()[i].Size(); ++j)
+                // skip out lap and them get every second lap
+                // 1 = outside
+                // 3 = raceline
+                // 5 = inside
+                for (int j = 1; j < laps.GetLaps()[i].Size(); j = (j + 2))
                 {
                     if (laps.GetLaps()[i].GetPackets()[j].GetType().Name == "TimingsDataDecoder")
                     {
