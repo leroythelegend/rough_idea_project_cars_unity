@@ -4,28 +4,12 @@ namespace pcars
     public class ConsoleProcess : IProcess
     {
         readonly PacketQueue packets;
+        readonly IAction action;
 
-        //readonly Record recordSession;
-        //readonly RecordTrack recordSession;
-        readonly RecordMap recordSession;
-
-        //readonly Display displayConsole;
-        //readonly DisplayTrack displayConsole;
-        readonly DisplayMap displayConsole;
-
-        readonly Capture capture;
-
-        public ConsoleProcess(ref PacketQueue packets)
+        public ConsoleProcess(ref PacketQueue packets, IAction action)
         {
-            //recordSession = new RecordTrack();
-            //displayConsole = new DisplayTrack();
-            //recordSession = new Record();
-            //displayConsole = new Display();
-            recordSession = new RecordMap();
-            displayConsole = new DisplayMap();
-
+            this.action = action;
             this.packets = packets;
-            capture = new Capture(recordSession, displayConsole);
         }
 
         public void Process()
@@ -35,7 +19,7 @@ namespace pcars
                 //Console.WriteLine("Number of elements " + packets.Size());
                 if (!packets.IsEmpty())
                 {
-                    capture.CapturePacket(packets.Pop());
+                    action.Start(packets.Pop());
                 }
             }
         }

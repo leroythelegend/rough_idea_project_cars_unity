@@ -13,7 +13,11 @@ public class Test : MonoBehaviour
     {
         var packetQueue = new PacketQueue();
         var udpProcess = new UDPProcess(ref packetQueue);
-        var consoleProcess = new ConsoleProcess(ref packetQueue);
+
+        ITelemetryProcessor recorder = new TelemetryRecorder();
+        ITelemetryProcessor processor = new TelemetrySaveTrack(recorder);
+
+        var consoleProcess = new ConsoleProcess(ref packetQueue, new Action(recorder, processor));
 
         udpThread = new Thread(new ThreadStart(udpProcess.Process));
         consoleThread = new Thread(new ThreadStart(consoleProcess.Process));
