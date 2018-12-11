@@ -15,39 +15,19 @@ namespace pcars
         public void Process()
         {
             var laps = GetLaps();
-            string fileName = System.String.Empty;
-
-            // find track location and variation for file name
-            for (int i = 0; i < laps.Size(); ++i)
-            {
-                for (int j = 0; j < laps.GetLaps()[i].Size(); ++j)
-                {
-                    if (laps.GetLaps()[i].GetPackets()[j].GetType().Name == "RaceDataDecoder")
-                    {
-                        var raceData = (RaceDataDecoder)laps.GetLaps()[i].GetPackets()[j];
-                        var trackLocation = raceData.trackLocation.String(0);
-                        var trackVariation = raceData.trackVariation.String(0);
-                        fileName = trackLocation + "_" + trackVariation + ".bin";
-                        break;
-                    }
-                }
-                if (fileName.Length != 0) 
-                {
-                    break;
-                }
-            }
+            string fileName = "./Tracks/" + laps.GetTrackName() + ".bin";
 
             // temp get laps x y z;
             TrackData trackData = new TrackData();
             List<TrackData> tracks = new List<TrackData>();
 
-            for (int i = 0; i < laps.Size(); ++i)
+            for (int i = 1; i < laps.Size(); i = (i + 2))
             {
                 // skip out lap and them get every second lap
                 // 1 = outside
                 // 3 = raceline
                 // 5 = inside
-                for (int j = 1; j < laps.GetLaps()[i].Size(); j = (j + 2))
+                for (int j = 0; j < laps.GetLaps()[i].Size(); ++j)
                 {
                     if (laps.GetLaps()[i].GetPackets()[j].GetType().Name == "TimingsDataDecoder")
                     {
@@ -65,8 +45,11 @@ namespace pcars
                 }
             }
 
-            FileStream stream = new FileStream(fileName);
-            stream.Save(tracks);
+            if (tracks.Count != 0)
+            {
+                FileStream stream = new FileStream(fileName);
+                stream.Save(tracks);
+            }
 
             laps.EraseLaps();
         }

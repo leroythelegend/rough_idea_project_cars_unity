@@ -31,5 +31,29 @@ namespace pcars
         {
             return laps.Count;
         }
+
+        public string GetTrackName()
+        {
+            string trackName = System.String.Empty;
+            for (int i = 0; i < Size(); ++i)
+            {
+                for (int j = 0; j < laps[i].Size(); ++j)
+                {
+                    if (laps[i].GetPackets()[j].GetType().Name == "RaceDataDecoder")
+                    {
+                        var raceData = (RaceDataDecoder)laps[i].GetPackets()[j];
+                        var trackLocation = raceData.trackLocation.String(0);
+                        var trackVariation = raceData.trackVariation.String(0);
+                        trackName = trackLocation + "_" + trackVariation;
+                        break;
+                    }
+                }
+                if (trackName.Length != 0)
+                {
+                    break;
+                }
+            }
+            return trackName;
+        }
     }
 }
